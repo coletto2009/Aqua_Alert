@@ -2,6 +2,10 @@
 
 {% block title %}Aqua Alert – Configurações{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='config.css') }}">
+{% endblock %}
+
 {% block content %}
 <section id="view-config" class="section">
     <div class="card">

@@ -1,0 +1,84 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+
+const char* ssid = "SEU_SSID";
+const char* password = "SUA_SENHA_WIFI";
+const char* serverUrl = "http://SEU_SERVIDOR:5000/fluxo";
+
+const byte sensorPin = D2;
+volatile int pulseCount = 0;
+unsigned long lastSend = 0;
+
+void IRAM_ATTR countPulse() {
+  pulseCount++;
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(sensorPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(sensorPin), countPulse, RISING);
+
+  WiFi.begin(ssid, password);
+  Serial.print("Conectando-se ao WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Conectado!");
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+  
+  if (currentMillis - lastSend >= 5000) { // a cada 5 segundos
+    detachInterrupt(digitalPinToInterrupt(sensorPin));
+    int count = pulseCount;
+    pulseCount = 0;
+    attachInterrupt(digitalPinToInterrupt(sensorPin), countPulse, RISING);
+
+    // Fórmula do YF-S201: 1L = ~450 pulsos
+    float litrosPorMinuto = (count / 450.0) * (60000.0 / 5000.0); // ajustado para 5 segundos
+
+    Serial.print("Fluxo: ");
+    Serial.print(litrosPorMinuto);
+    Serial.println(" L/min");
+
+    if (WiFi.status() == WL_CONNECTED) {
+      HTTPClient http;
+      http.begin(serverUrl);
+      http.addHeader("Content-Type", "application/json");
+
+      String postData = "{\"fluxo\": " + String(litrosPorMinuto, 2) + "}";
+      int httpResponseCode = http.POST(postData);
+
+      Serial.print("POST status: ");
+      Serial.println(httpResponseCode);
+
+      http.end();
+    }
+
+    lastSend = currentMillis;
+
+
+codigo python
+
+from flask import Flask, request, jsonify
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/fluxo', methods=['POST'])
+def receber_fluxo():
+    data = request.get_json()
+    fluxo = data.get('fluxo')
+    
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(f"[{timestamp}] Fluxo recebido: {fluxo:.2f} L/min")
+    
+    return jsonify({'status': 'ok', 'fluxo_recebido': fluxo}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+
+cp210x driver

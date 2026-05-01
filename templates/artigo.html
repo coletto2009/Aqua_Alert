@@ -2,6 +2,10 @@
 
 {% block title %}Aqua Alert – Artigos{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='artigo.css') }}">
+{% endblock %}
+
 {% block content %}
 <section id="view-artigos" class="section">
     <div class="card">
@@ -25,13 +29,4 @@
                 
     </div>
 </section>
-<style>
-    p{
-        text-align: justify;
-        font-size: larger;
-    }
-    h2{
-        text-align: center;
-    }
-</style>
 {% endblock %}

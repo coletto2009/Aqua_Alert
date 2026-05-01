@@ -1,6 +1,10 @@
 {% extends 'base_public.html' %}
 
-{% block title %}Aqua Alert – Dashboard{% endblock %}
+{% block title %}Artigos{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='artigosuser.css') }}">
+{% endblock %}
 
 {% block content %}
 <section id="view-artigos" class="section">
@@ -40,109 +44,4 @@
         </div>
     </div>
 </section>
-<style>
-    /* Card geral */
-#view-artigos .card {
-    background-color: rgba(255, 255, 255, 0.164);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    padding: 2rem;
-    max-width: 900px;
-    margin: 2rem auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fdfdfd;
-}
-
-/* Header do card */
-#view-artigos .card-header {
-    margin-bottom: 1.5rem;
-}
-
-#view-artigos .card-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-    color: #003a97; /* azul escuro */
-}
-
-#view-artigos .card-sub {
-    font-size: 1rem;
-    font-weight: 400;
-    color: #ffffff;
-}
-
-/* Corpo do card */
-#view-artigos .card-body section {
-    margin-bottom: 2rem;
-}
-
-/* Títulos das seções */
-#view-artigos h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.8rem;
-    color: #0ca8fc; /* azul médio */
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Listas não ordenadas */
-#view-artigos ul {
-    padding-left: 1.5rem;
-    list-style-type: disc;
-    margin-top: 0.5rem;
-}
-
-#view-artigos li {
-    margin-bottom: 0.6rem;
-    line-height: 1.6;
-    font-size: 1rem;
-}
-
-/* Listas de definições (dl, dt, dd) */
-#view-artigos dl {
-    margin-top: 0.5rem;
-}
-
-#view-artigos dt {
-    font-weight: 700;
-    margin-top: 1rem;
-    color: #ff9900; /* vermelho para mito */
-}
-
-#view-artigos dd {
-    margin-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
-    font-size: 1rem;
-}
-
-/* Parágrafos */
-#view-artigos p {
-    line-height: 1.8;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-}
-
-/* Espaçamento entre seções */
-#view-artigos .mt-24 {
-    margin-top: 2rem;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    #view-artigos .card {
-        padding: 1.5rem;
-    }
-
-    #view-artigos h2 {
-        font-size: 1.3rem;
-    }
-
-    #view-artigos li, #view-artigos dd, #view-artigos p {
-        font-size: 0.95rem;
-    }
-}
-
-</style>
 {% endblock %}

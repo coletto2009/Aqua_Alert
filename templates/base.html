@@ -7,6 +7,8 @@
     <title>{% block title %}Aqua Alert{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     
+    {% block extra_css %}{% endblock %}
+    
     <script>
         // Pega o elemento select
         const themeSelect = document.getElementById("themeSelect");

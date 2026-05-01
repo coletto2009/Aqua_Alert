@@ -76,6 +76,8 @@
  
 {% endblock %}
 
- <link rel="stylesheet" href="{{ url_for('static', filename='dicas.css') }}">
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dicas.css') }}">
+{% endblock %}
 
 

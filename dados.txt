@@ -1,0 +1,5 @@
+http://<ip_do_servidor>:5001/api/esp
+
+http://localhost:5000/register
+
+py -m pip install mysql-connector-python

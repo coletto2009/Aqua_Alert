@@ -2,6 +2,10 @@
 
 {% block title %}Aqua Alert – Sensores{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='sensores.css') }}">
+{% endblock %}
+
 {% block content %}
 <section id="view-sensores" class="section">
     <div class="card">
@@ -25,7 +29,7 @@
                         <div class="card-sub">Código: YSF201_123</div>
                     </div>
                     <div class="flex">
-                        <button class="btn" style="color: rgb(8, 252, 170);" disabled>Editar</button>
+                        <button class="btn edit" disabled>Editar</button>
                         <button class="btn danger" disabled>Remover</button>
                     </div>
                 </div>

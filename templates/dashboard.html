@@ -2,8 +2,12 @@
 
 {% block title %}Aqua Alert – Dashboard{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+{% endblock %}
+
 {% block content %}
-<section id="view-dashboard" class="section" style="overflow-y: auto; max-height: calc(100vh - 60px);">
+<section id="view-dashboard" class="section">
     
     <div class="dashboard-header">
        
@@ -42,39 +46,6 @@
 
 </section>
 
-<style>
-    /* * Remove a rolagem interna e define um espaçamento.
-     * GARANTE que o card não tenha altura máxima, permitindo o gráfico se expandir.
-     */
-    .card {
-        margin-bottom: 20px;
-        max-width: 100%;      /* Limita a largura máxima do card */
-        margin-left: 0;     /* Centraliza o card */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        border-radius: 10px;
-    }
-
-    /* * Define a altura do contêiner onde o gráfico será renderizado.
-     * Use um valor fixo (ex: 300px) para controlar o tamanho.
-     */
-    .chart-container {
-        position: relative;
-        /* Você pode ajustar esta altura (em px) para o tamanho que desejar */
-        height: 220px;         /* Altura fixa para o gráfico */
-        width: 100%;           /* Ocupa toda a largura do card */
-        max-width: 480px;      /* Limita a largura máxima do gráfico */
-        margin: 0 auto;        /* Centraliza o gráfico */
-    }
-
-    /* * GARANTE que o canvas (o gráfico) ocupe 100% da área 
-     * definida pelo .chart-container
-     */
-    .chart-container canvas {
-        width: 100% !important;
-        height: 100% !important;
-        display: auto;
-    }
-</style>
 <script>
 
     async function carregarGraficoDiario() {
