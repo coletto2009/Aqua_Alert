@@ -1,0 +1,29 @@
+<!-- templates/index.html -->
+{% extends 'base_public.html' %}
+
+{% block title %}Bem-vindo ao Aqua Alert{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="wave"></div>
+  <div class="welcome-box">
+    <h1>🌊 Bem-vindo ao Aqua Alert</h1>
+    <p>
+      O <strong>Aqua Alert</strong> é um sistema inovador que ajuda você a 
+      <span>monitorar o consumo de água</span>, detectar possíveis vazamentos 
+      e adotar práticas mais sustentáveis no dia a dia.
+    </p>
+    <p>
+      Nosso objetivo é promover o uso consciente da água, combinando 
+      <span>tecnologia, praticidade e impacto positivo</span> no meio ambiente.
+    </p>
+
+    <div class="cta-buttons">
+      <a href="{{ url_for('login') }}" class="cta-primary">Começar Agora</a>
+      <a href="{{ url_for('sobre') }}" class="cta-secondary">Saiba Mais</a>
+    </div>
+  </div>
+{% endblock %}

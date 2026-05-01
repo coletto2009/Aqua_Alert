@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Aqua Alert – Histórico{% endblock %}
+
+{% block content %}
+<section id="view-historico" class="section">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Histórico de Consumo Diário</div>
+            <div class="card-sub">Totais por dia (agrupados por dispositivo)</div>
+        </div>
+
+        <!-- Campo de busca -->
+        <div class="mb-8">
+            <input id="historySearch" class="input" placeholder="Filtrar por dispositivo ou status" />
+        </div>
+
+        <!-- Tabela -->
+        <table class="table" id="historyTable">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Dispositivo</th>
+                    <th>Total (Litros)</th>
+                    <th>Última Atualização</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- JS preenche aqui -->
+            </tbody>
+        </table>
+
+        <!-- Paginação -->
+        <div class="mt-16 flex" id="pagination"></div>
+    </div>
+</section>
+
+<script>
+async function carregarHistorico() {
+    const res = await fetch("/historico");
+    const dados = await res.json();
+
+    const tbody = document.querySelector("#historyTable tbody");
+    tbody.innerHTML = "";
+
+    dados.forEach(item => {
+        const tr = document.createElement("tr");
+
+        // Status calculado simples (exemplo: >100 litros = alto consumo)
+        const status = item.total_litros > 100 ? "Alto Consumo" : "Normal";
+
+        tr.innerHTML = `
+            <td>${item.dia}</td>
+            <td>Dispositivo ${item.dispositivo_id}</td>
+            <td>${item.total_litros} L</td>
+            <td>${item.ultima_atualizacao}</td>
+            <td>${status}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// carregar histórico quando a tela abrir
+document.addEventListener("DOMContentLoaded", carregarHistorico);
+
+// 🔎 Filtro simples pelo input
+document.getElementById("historySearch").addEventListener("input", function() {
+    const termo = this.value.toLowerCase();
+    document.querySelectorAll("#historyTable tbody tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(termo) ? "" : "none";
+    });
+});
+</script>
+
+{% endblock %}

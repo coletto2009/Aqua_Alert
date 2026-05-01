@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Aqua Alert – Configurações{% endblock %}
+
+{% block content %}
+<section id="view-config" class="section">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Configurações</div>
+        </div>
+        <div class="grid-2">
+            <div>
+                <label class="mb-8">Tema</label>
+                <div class="mt-8">
+                    <select id="themeSelector" class="select">
+                        <option value="dark">Escuro (Padrão)</option>
+                        <option value="light">Claro</option>
+                        <option value="aqua">Aqua (Cor de água)</option>
+                        <option value="wave">Onda de Água</option>
+                        <option value="oceanfloor">Fundo do Mar</option>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+const themeSelect = document.getElementById("themeSelector");
+const body = document.body;
+
+// Lista de todas as classes de tema
+const themes = [
+    "theme-dark", "theme-light", "theme-aqua", "theme-wave", 
+    "theme-oceanfloor", "theme-forest", "theme-grape", "theme-lavender", 
+    "theme-fish"
+];
+
+// Função para remover elementos dinâmicos (peixes e bolhas)
+function removeDynamicElements() {
+    document.querySelectorAll('.fish, .bubble').forEach(el => el.remove());
+}
+
+// Função para criar elementos animados dependendo do tema
+function createDynamicElements(themeValue) {
+    // remove elementos antigos
+    document.querySelectorAll('.fish, .bubble').forEach(el => el.remove());
+
+    if (themeValue === 'fish') {
+        for (let i = 0; i < 5; i++) {
+            const fish = document.createElement('div');
+            fish.classList.add('fish');
+            fish.style.bottom = `${20 + Math.random() * 50}%`;
+            fish.style.animationDelay = `${Math.random() * 10}s`;
+            document.body.appendChild(fish);
+        }
+    } else if (themeValue === 'oceanfloor') {
+        for (let i = 0; i < 5; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.style.left = `${Math.random() * 100}vw`;
+            bubble.style.width = `${10 + Math.random() * 20}px`;
+            bubble.style.height = bubble.style.width;
+            bubble.style.animationDuration = `${5 + Math.random() * 10}s`;
+            bubble.style.animationDelay = `${Math.random() * 10}s`;
+            document.body.appendChild(bubble);
+        }
+        for (let i = 0; i < 3; i++) {
+            const fish = document.createElement('div');
+            fish.classList.add('fish');
+            fish.style.bottom = `${10 + Math.random() * 40}%`;
+            fish.style.animationDelay = `${Math.random() * 10}s`;
+            document.body.appendChild(fish);
+        }
+    }
+}
+
+// Função para trocar o tema
+function setTheme(themeValue) {
+    body.classList.remove(...themes);
+    body.classList.add(`theme-${themeValue}`);
+    localStorage.setItem("theme", themeValue);
+
+    createDynamicElements(themeValue); // adiciona peixes/bolhas quando necessário
+}
+
+// Carrega o tema salvo ao iniciar a página
+const savedTheme = localStorage.getItem("theme") || "dark";
+setTheme(savedTheme);
+themeSelect.value = savedTheme;
+
+// Troca o tema quando o usuário seleciona uma opção
+themeSelect.addEventListener("change", () => {
+    setTheme(themeSelect.value);
+});
+</script>
+
+{% endblock %}

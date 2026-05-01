@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <h1>🌊 Aqua Alert</h1>
+      <!-- Form com action e method -->
+      <form id="loginForm" action="{{ url_for('login') }}" method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+
+      <!-- Exibe erro caso exista -->
+      {% if error %}
+      <p id="errorMsg" class="error">{{ error }}</p>
+      {% endif %}
+
+      <div class="extra-options">
+        <a href="#" id="forgotPass">Esqueci minha senha</a>
+        <a href="{{ url_for('register') }}" id="createAcc">Criar nova conta</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="waterTransition"></div>
+
+</body>
+</html>

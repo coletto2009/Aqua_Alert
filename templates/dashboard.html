@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}Aqua Alert – Dashboard{% endblock %}
+
+{% block content %}
+<section id="view-dashboard" class="section" style="overflow-y: auto; max-height: calc(100vh - 60px);">
+    
+    <div class="dashboard-header">
+       
+        <p>Monitore seu consumo de água em tempo real</p>
+    </div>
+
+    <div class="grid-2 top-cards">
+        <div class="card stat" id="stat-usage">
+            <div class="card-icon">💧</div>
+            <div class="card-title">Consumo (hoje)</div>
+            <div class="value" data-bind="usage">{{ consumo_hoje }} L</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Consumo Diário</div>
+            <div class="card-sub">Hoje hora a hora</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Consumo Semanal</div>
+            <div class="card-sub">Últimos 7 dias</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="weeklyChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+</section>
+
+<style>
+    /* * Remove a rolagem interna e define um espaçamento.
+     * GARANTE que o card não tenha altura máxima, permitindo o gráfico se expandir.
+     */
+    .card {
+        margin-bottom: 20px;
+        max-width: 100%;      /* Limita a largura máxima do card */
+        margin-left: 0;     /* Centraliza o card */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 10px;
+    }
+
+    /* * Define a altura do contêiner onde o gráfico será renderizado.
+     * Use um valor fixo (ex: 300px) para controlar o tamanho.
+     */
+    .chart-container {
+        position: relative;
+        /* Você pode ajustar esta altura (em px) para o tamanho que desejar */
+        height: 220px;         /* Altura fixa para o gráfico */
+        width: 100%;           /* Ocupa toda a largura do card */
+        max-width: 480px;      /* Limita a largura máxima do gráfico */
+        margin: 0 auto;        /* Centraliza o gráfico */
+    }
+
+    /* * GARANTE que o canvas (o gráfico) ocupe 100% da área 
+     * definida pelo .chart-container
+     */
+    .chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: auto;
+    }
+</style>
+<script>
+
+    async function carregarGraficoDiario() {
+        const resp = await fetch("/api/consumo_diario");
+        const data = await resp.json();
+
+        const ctx = document.getElementById("dailyChart").getContext("2d");
+        new Chart(ctx, {
+            type: "bar", // <-- alterado para 'bar'
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: "Litros consumidos",
+                    data: data.valores,
+                    backgroundColor: "rgba(75, 192, 192, 0.6)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1
+                    
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Hora' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Litros' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    carregarGraficoDiario();
+    async function carregarGrafico() {
+        const resp = await fetch("/api/consumo_semanal");
+        const data = await resp.json();
+
+        const ctx = document.getElementById("weeklyChart").getContext("2d");
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: "Litros consumidos",
+                    data: data.valores,
+                    backgroundColor: "rgba(54, 162, 235, 0.6)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    carregarGrafico();
+</script>
+
+
+
+
+{% endblock %}

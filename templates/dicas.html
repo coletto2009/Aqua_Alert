@@ -1,0 +1,81 @@
+{% extends 'base_public.html' %}
+
+{% block title %}Dicas para Economizar Água{% endblock %}
+
+{% block content %}
+<div class="dicas-container">
+  <div class="dicas-header">
+    <h1>Dicas para Economizar Água</h1>
+    <p>Pequenas mudanças de hábito podem fazer uma grande diferença no consumo de água</p>
+  </div>
+  
+  <div class="dicas-grid">
+    <div class="dica-card">
+      <div class="dica-icon">🚿</div>
+      <h2>Reduza o tempo no banho</h2>
+      <p>Um banho de 15 minutos pode consumir até 135 litros de água. Reduzir para 5 minutos economiza 90 litros por banho.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">90 litros/dia</span>
+      </div>
+    </div>
+    
+    <div class="dica-card">
+      <div class="dica-icon">🪥</div>
+      <h2>Feche a torneira ao escovar os dentes</h2>
+      <p>Manter a torneira fechada enquanto escova os dentes pode economizar até 12 litros de água por escovação.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">36 litros/dia</span>
+      </div>
+    </div>
+    
+    <div class="dica-card">
+      <div class="dica-icon">🔧</div>
+      <h2>Conserte vazamentos</h2>
+      <p>Uma torneira pingando pode desperdiçar mais de 40 litros por dia. Vazamentos no vaso sanitário podem chegar a 250 litros diários.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">até 250 litros/dia</span>
+      </div>
+    </div>
+    
+    <div class="dica-card">
+      <div class="dica-icon">👕</div>
+      <h2>Use a máquina de lavar com carga completa</h2>
+      <p>Lavar roupas apenas quando a máquina estiver cheia economiza água e energia.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">70 litros/semana</span>
+      </div>
+    </div>
+    
+    <div class="dica-card">
+      <div class="dica-icon">♻️</div>
+      <h2>Reutilize a água</h2>
+      <p>A água do enxágue de roupas pode ser usada para lavar calçadas ou regar plantas.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">100 litros/semana</span>
+      </div>
+    </div>
+    
+    <div class="dica-card">
+      <div class="dica-icon">🚽</div>
+      <h2>Descarga econômica</h2>
+      <p>Use a descarga apenas quando necessário e considere instalar uma caixa acoplada com duplo acionamento.</p>
+      <div class="economia">
+        <span class="economia-label">Economia potencial:</span>
+        <span class="economia-valor">60 litros/dia</span>
+      </div>
+    </div>
+  </div>
+
+  
+  
+ 
+{% endblock %}
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='dicas.css') }}">
+
+

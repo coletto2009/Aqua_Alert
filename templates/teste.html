@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+<div class="container">
+<h1>Sobre Nós</h1>
+<p>O Aqua Alert nasceu da ideia de unir tecnologia e sustentabilidade para enfrentar um dos maiores desafios do mundo
+  moderno: o desperdício de água.
+
+  Nosso sistema utiliza um medidor de vazão conectado a um ESP32, que envia os dados para um banco de dados online. A
+  partir disso, o usuário pode acessar um site intuitivo e acompanhar seu consumo diário, semanal e mensal, recebendo
+  também alertas de possíveis vazamentos e dicas para economizar água.
+
+</p>
+<h2>🚀 Nossa Missão</h2>
+<p>Promover o uso consciente da água, ajudando pessoas e famílias a reduzir desperdícios e a adotar hábitos mais sustentáveis no dia a dia.
+</p>
+
+<h2>👁 Nossa Visão</h2>
+<p>Ser referência em soluções acessíveis de monitoramento ambiental, incentivando uma sociedade mais consciente e responsável com os recursos naturais.
+</p>
+
+<h2>🌱 Nosso Valores</h2>
+<p>Sustentabilidade: cada gota conta.<br>
+
+Inovação: tecnologia a favor do meio ambiente.<br>
+
+Conscientização: informação para transformar hábitos.<br>
+
+Responsabilidade: cuidar hoje para garantir o amanhã.
+</p>
+
+<h2>Nosso Time</h2>
+
+<p>Somos um grupo de estudantes interessados por tecnologia e comprometidos com a sustentabilidade. Acreditamos que, com inovação e conscientização, podemos fazer a diferença no mundo.</p>
+
+<h2>👥 Integrantes</h2>
+<h3>Abner Antonio Américo <br>
+
+Gustavo da Silva de Oliveira<br>
+
+Davi Porto Izabel<br>
+
+Felipe Gotardo Coletto</h3>
+</div>
+
+
+
+
+
+<img src="{{ url_for('static', filename='img/terno.png') }}" alt="Nosso grupo" ">
+</section>
+</body>
+<style>
+  /* Aqua Alert — Futuristic, credible CSS
+   Preserve existing colors (no color overrides). Responsive team cards with photo on top.
+   Usage: link this stylesheet in your template: <link rel="stylesheet" href="/static/css/aqua_alert_styles.css"> 
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root{
+  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --glass-alpha: 0.12; /* transparency only, doesn't force colors */
+  --max-width: 1100px;
+  --gap: 22px;
+  font-synthesis: none;
+}
+
+/* Reset / base ------------------------------------------------------------ */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  line-height:1.5;
+  margin:0;
+  padding:0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); /* subtle depth without changing colors */
+}
+
+.container{
+  max-width:var(--max-width);
+  margin:36px auto;
+  padding:28px;
+}
+
+/* Header ------------------------------------------------------------------ */
+h1{
+  font-weight:700;
+  letter-spacing:0.2px;
+  margin:0 0 10px 0;
+}
+
+p{margin:0 0 16px 0}
+
+/* Section cards / glass look ---------------------------------------------- */
+section, .panel{
+  border-radius:var(--radius-lg);
+  padding:18px;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  background: rgba(255,255,255,var(--glass-alpha));
+  box-shadow: 0 6px 22px rgba(6,12,34,0.07), inset 0 1px 0 rgba(255,255,255,0.02);
+  margin-bottom:20px;
+}
+
+/* Section titles ---------------------------------------------------------------- */
+h2{
+  font-size:1.05rem;
+  margin:18px 0 8px;
+  font-weight:600;
+}
+
+/* Values list style ------------------------------------------------------- */
+/* keep plain text colors as in HTML; only styling layout */
+
+/* Team area --------------------------------------------------------------- */
+.team{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap:var(--gap);
+  align-items:start;
+  margin-top:8px;
+}
+
+.member-card{
+  border-radius:var(--radius-sm);
+  padding:14px;
+  text-align:center;
+  transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+  cursor:default;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  box-shadow: 0 8px 24px rgba(6,12,34,0.06);
+}
+.member-card:focus, .member-card:hover{
+  transform:translateY(-6px);
+  box-shadow: 0 18px 40px rgba(8,16,48,0.12);
+}
+
+.member-card .photo{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  overflow:hidden;
+  margin:0 auto 12px;
+  display:inline-block;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12), 0 0 0 4px rgba(255,255,255,0.02) inset;
+}
+.member-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.member-card .name{
+  font-weight:600;
+  font-size:0.98rem;
+  margin-top:6px;
+}
+
+/* Accessibility helpers --------------------------------------------------- */
+.visually-hidden{position:absolute;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+/* Footer image (the group photo) ----------------------------------------- */
+.group-photo{
+  display:block;
+  max-width:220px;
+  width:100%;
+  margin:20px auto 0;
+  border-radius:12px;
+  box-shadow: 0 8px 30px rgba(6,12,34,0.08);
+}
+
+/* Responsive tweaks ------------------------------------------------------- */n
+
+/* Small helper for lists inside descriptions -------------------------------- */
+ul.clean{
+  padding-left:18px; margin:6px 0 12px 0;
+}
+
+/* Small CTA bar to suggest credibility without changing colors ------------ */
+.credibility-bar{
+  padding:10px 14px;
+  border-radius:10px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:12px;
+  font-size:0.95rem;
+  box-shadow: 0 6px 18px rgba(6,12,34,0.05);
+}
+
+/* Utility spacing --------------------------------------------------------- */
+.mt-8{margin-top:8px}
+.mb-8{margin-bottom:8px}
+
+/* End of file */
+
+</style>
+</html>

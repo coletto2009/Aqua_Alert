@@ -1,0 +1,278 @@
+{% extends 'base_public.html' %}
+
+{% block title %}Dicas para Economizar Água{% endblock %}
+
+{% block content %}
+<section>
+  <div class="container">
+    <h1 style="text-align: center;">Nosso Time</h2>
+
+
+      <div style="height: 30px;"></div>
+      <h2 style="text-align: center;">👥 Integrantes</h2>
+
+      <div style="height: 20px;"></div>
+
+      <div class="team">
+        <div class="member-card">
+          <div class="photo">
+            <img src="{{ url_for('static', filename='img/abner.jpg') }}">
+          </div>
+          <div class="name">Abner Antonio Américo</div>
+        </div>
+
+        <div class="member-card">
+          <div class="photo">
+            <img src="{{ url_for('static', filename='img/davi.png') }}">
+          </div>
+          <div class="name">Davi Porto Izabel</div>
+        </div>
+
+        <div class="member-card">
+          <div class="photo">
+            <img src="{{ url_for('static', filename='img/coletto.jpg') }}">
+          </div>
+          <div class="name">Felipe Gotardo Coletto</div>
+        </div>
+
+        <div class="member-card">
+          <div class="photo">
+            <img src="{{ url_for('static', filename='img/silva.jpg') }}">
+          </div>
+          <div class="name">Gustavo da Silva de Oliveira</div>
+        </div>
+
+
+        <!-- repita para os demais integrantes -->
+      </div>
+      <div style="height: 20px;"></div>
+
+      <p style="font-size:larger; text-align: center;">Somos um grupo de estudantes interessados por tecnologia e
+        comprometidos com a sustentabilidade. Acreditamos que,
+        com inovação e conscientização, podemos fazer a diferença no mundo.</p>
+
+        <div style="height: 15px;"></div>
+        
+      <h1 style="text-align: center;">Sobre Nós</h1>
+      <p style="font-size:larger; text-align: justify;">O Aqua Alert nasceu da ideia de unir tecnologia e
+        sustentabilidade para enfrentar um dos maiores desafios do
+        mundo
+        moderno: o desperdício de água.
+
+        Nosso sistema utiliza um medidor de vazão conectado a um ESP32, que envia os dados para um banco de dados
+        online.
+        A
+        partir disso, o usuário pode acessar um site intuitivo e acompanhar seu consumo diário, semanal e mensal,
+        recebendo
+        também alertas de possíveis vazamentos e dicas para economizar água.
+
+      </p>
+      <div style="height: 30px;"></div>
+
+     
+
+
+
+
+
+      <section id="beneficios" class="benefits">
+        <div class="container">
+          <h2 class="section-title" style="text-align: center;">🌱 Nosso Valores</h2>
+          <div style="height: 15px;"></div>
+
+          <div class="benefits-grid">
+            <div class="benefit-card">
+              <i class="fas fa-money-bill-wave"></i>
+              <h3>Sustentabilidade:
+                <br> cada gota conta.</h3>
+
+            </div>
+            <div class="benefit-card">
+              <i class="fas fa-leaf"></i>
+              <h3>Inovação: 
+                <br> tecnologia a favor do meio ambiente.</h3>
+
+            </div>
+            <div class="benefit-card">
+              <i class="fas fa-chart-line"></i>
+              <h3>Conscientização: 
+                <br> informação para transformar hábitos.</h3>
+
+            </div>
+            <div class="benefit-card">
+              <i class="fas fa-shield-alt"></i>
+              <h3>Responsabilidade: 
+                <br> cuidar hoje para garantir o amanhã.</h3>
+
+            </div>
+
+          </div>
+        </div>
+<div style="height: 30px;"></div>
+         <div class="team">
+        <div class="card-v">
+          <div class="name">🚀 Nossa Missão</div>
+          <p style="text-align: center">Promover o uso consciente da água, ajudando pessoas e famílias a reduzir
+            desperdícios e a adotar hábitos mais
+            sustentáveis no dia a dia.
+          </p>
+        </div>
+
+        <div class="card-v">
+          <div class="name">👁 Nossa Visão</div>
+          <p style="text-align: center;">Ser referência em soluções acessíveis de monitoramento ambiental, incentivando
+            uma sociedade mais consciente e
+            responsável com os recursos naturais.
+          </p>
+        </div>
+      </div>
+
+      <div style="height: 30px;"></div>
+
+        <div></div>
+      </section>
+
+      <div style="height: 30px;"></div>
+
+
+
+      <!-- img src="{{ url_for('static', filename='img/terno.png') }}" alt="Nosso grupo" " -->
+</section>
+
+<style>
+  /* Team area --------------------------------------------------------------- */
+
+  :root {
+    --radius-lg: 16px;
+    --radius-sm: 10px;
+    --glass-alpha: 0.12;
+    /* transparency only, doesn't force colors */
+    --max-width: 1100px;
+    --gap: 22px;
+    font-synthesis: none;
+  }
+
+
+  .card-v {
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    text-align: center;
+    transition: transform 220ms cubic-bezier(.2, .9, .3, 1), box-shadow 220ms;
+    cursor: default;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    box-shadow: 0 8px 24px rgba(6, 12, 34, 0.06);
+    font-size: large;
+  }
+
+  .card-v:focus,
+  .card-v:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(8, 16, 48, 0.12);
+  }
+
+  .card-v .photo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 12px;
+    display: inline-block;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12), 0 0 0 4px rgba(255, 255, 255, 0.02) inset;
+  }
+
+  .team {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    /* cards mais amplos */
+    gap: var(--gap);
+    align-items: start;
+    justify-items: center;
+    margin-top: 20px;
+  }
+
+  .member-card {
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    transition: transform 220ms cubic-bezier(.2, .9, .3, 1), box-shadow 220ms;
+    cursor: default;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    box-shadow: 0 8px 24px rgba(6, 12, 34, 0.06);
+    width: 230px;
+  }
+
+  .member-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(8, 16, 48, 0.12);
+  }
+
+  .member-card .photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15),
+      0 0 0 4px rgba(255, 255, 255, 0.03) inset;
+    transition: box-shadow 0.3s ease;
+  }
+
+  /* efeito de brilho futurista ao passar o mouse */
+  .member-card:hover .photo {
+    box-shadow: 0 6px 25px rgba(0, 110, 255, 0.35),
+      0 0 0 4px rgba(0, 110, 255, 0.15) inset;
+  }
+
+  .member-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .member-card .name {
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-top: 8px;
+    color: #ffffff;
+    /* garante boa leitura sobre fundo escuro */
+  }
+
+
+  .benefits {
+    background-color: transparent;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .benefit-card {
+    background-color: #006eff;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+
+
+  .benefit-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+  }
+</style>
+{% endblock %}

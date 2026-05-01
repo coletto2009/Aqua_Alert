@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Aqua Alert{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <script>
+        // Pega o elemento select
+        const themeSelect = document.getElementById("themeSelect");
+        const body = document.body;
+
+        // Lista de todas as classes de tema
+        const themes = [
+            "theme-dark", "theme-light", "theme-aqua", "theme-wave",
+            "theme-ocean", "theme-forest", "theme-grape", "theme-lavender",
+            "theme-fish", "theme-oceanfloor"
+        ];
+
+        // Função para trocar o tema
+        function setTheme(themeValue) {
+            // Remove todas as classes de tema
+            body.classList.remove(...themes);
+
+            // Adiciona a classe do tema selecionado
+            body.classList.add(`theme-${themeValue}`);
+
+            // Salva no localStorage para manter o tema ao recarregar a página
+            localStorage.setItem("theme", themeValue);
+        }
+
+        // Carrega o tema salvo ao iniciar a página
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        setTheme(savedTheme);
+        themeSelect.value = savedTheme;
+
+        // Troca o tema quando o usuário seleciona uma opção
+        themeSelect.addEventListener("change", () => {
+            setTheme(themeSelect.value);
+        });
+
+    </script>
+</head>
+
+<body class="theme-dark">
+    <div class="bg-waves"></div>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="nav-group">
+                <div class="nav-title">Menu</div>
+                <nav class="nav">
+                    <a href="{{ url_for('usuario') }}">Home</a>
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('sensores') }}">Sensores</a>
+                    <a href="{{ url_for('history') }}">Histórico</a>
+                    <a href="{{ url_for('artigos') }}">Artigos</a>
+                    <a href="{{ url_for('config') }}">Configurações</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <div class="dot"></div> Aqua Alert
+            </div>
+
+            <div class="actions">
+                <a href="{{ url_for('config') }}">⚙️</a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal-backdrop">
+        <div class="modal">
+            <div class="card-header">
+                <div class="card-title" id="modalTitle">Detalhes</div>
+                <button id="closeModal" class="btn">Fechar</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Transição da água -->
+    <div id="waterTransition" class="active"></div>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+</body>
+
+</html>

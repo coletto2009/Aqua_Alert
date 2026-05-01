@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aqua Alert – Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cards.css') }}">
+</head>
+
+<body class="theme-dark">
+    <div class="bg-waves"></div>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="nav-group">
+                <div class="nav-title">Menu</div>
+                <nav class="nav">
+
+
+                </nav>
+            </div>
+        </aside>
+
+        <header class="header">
+            <div class="brand">
+                <div class="dot"></div>  <h3>🌊 Bem-vindo ao Aqua Alert</h3>
+                
+                
+            </div>
+            
+           
+            <div class="actions">
+
+                <a href="{{ url_for('config') }}" id="themeBtn" title="Alternar tema">⚙️</a>
+           
+        </header>
+        <!-- CONTEÚDO PRINCIPAL ABAIXO -->
+         <main>
+            
+         </main>
+        
+       
+        <!-- CARDS DE NAVEGAÇÃO ABAIXO -->
+        <main class="main" style="overflow-y: auto; max-height: calc(100vh - 60px);">
+            
+
+            <!-- CARDS DE NAVEGAÇÃO -->
+            <div class="cards-grid">
+                <a href="{{ url_for('dashboard') }}" class="card-link">
+                    <h3 data-icon="📊">Dashboard</h3>
+                    <p>Visão geral do consumo e alertas</p>
+                </a>
+                <a href="{{ url_for('sensores') }}" class="card-link">
+                    <h3 data-icon="🔌">Sensores</h3>
+                    <p>Gerencie e configure seus sensores</p>
+                </a>
+                <a href="{{ url_for('history') }}" class="card-link">
+                    <h3 data-icon="📜">Histórico</h3>
+                    <p>Consulte as medições passadas</p>
+                </a>
+                <a href="{{ url_for('artigos') }}" class="card-link">
+                    <h3 data-icon="📚">Artigos</h3>
+                    <p>Conteúdo e dicas sobre consumo de água</p>
+                </a>
+                <a href="{{ url_for('config') }}" class="card-link">
+                    <h3 data-icon="⚙️">Configurações</h3>
+                    <p>Ajuste preferências do sistema</p>
+                </a>
+                <!-- Espaço vazio para completar 3 colunas na segunda linha -->
+                 <a href="{{ url_for('logout') }}" class="card-link">
+                    <h3 data-icon="">Sair</h3>
+                    <p>Voltar para o site</p>
+                </a>
+            </div>
+
+        </main>
+
+
+
+        <section id="view-sensores" class="section hidden">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Sensores</div>
+                        <div class="card-sub">Cadastre e gerencie sensores</div>
+                    </div>
+                    <div class="flex">
+                        <button id="addSensorBtn" class="btn primary">Adicionar Sensor</button>
+                        <button id="exportBtn" class="btn">Exportar JSON</button>
+                        <label class="btn" for="importFile">Importar JSON</label>
+                        <input type="file" id="importFile" accept="application/json" class="hidden" />
+                    </div>
+                </div>
+                <div id="sensorsList" class="grid-2"></div>
+            </div>
+        </section>
+        -
+
+        <section id="view-historico" class="section hidden">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Histórico de Medições</div>
+                    <div class="card-sub">Clique nos cabeçalhos para ordenar</div>
+                </div>
+                <div class="mb-8"><input id="historySearch" class="input" placeholder="Filtrar por sensor/status" />
+                </div>
+                <table class="table" id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Data/Hora</th>
+                            <th>Sensor</th>
+                            <th>Valor</th>
+                            <th>Outro campo</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- As linhas serão preenchidas pelo JS -->
+                    </tbody>
+                </table>
+                <div class="mt-16 flex" id="pagination"></div>
+            </div>
+        </section>
+
+        <section id="view-config" class="section hidden">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Configurações</div>
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <label class="mb-8">Tema</label>
+                        <div class="mt-8">
+                            <select id="themeSelect" class="select">
+                                <option value="dark">Escuro (Padrão)</option>
+                                <option value="light">Claro</option>
+                                <option value="aqua">Aqua (Cor de água)</option>
+                                <option value="wave">Onda de Água</option>
+                                <option value="ocean">Oceano</option>
+                                <option value="forest">Floresta</option>
+                                <option value="grape">Uva</option>
+                                <option value="lavender">Lavanda</option>
+                                <option value="fish">Peixes</option>
+                                <option value="oceanfloor">Fundo do Mar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="mb-8">Parâmetros de Vazamento</label>
+                        <div class="grid-2 mt-8">
+                            <div>
+                                <small class="card-sub">Fluxo mínimo (L/min)</small>
+                                <input id="cfgLeakFlow" type="number" class="input" min="0" value="2" />
+                            </div>
+                            <div>
+                                <small class="card-sub">Duração (min)</small>
+                                <input id="cfgLeakMins" type="number" class="input" min="1" value="30" />
+                            </div>
+                        </div>
+                        <div class="mt-16"><button id="saveCfg" class="btn primary">Salvar</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div id="modal" class="modal-backdrop">
+            <div class="modal">
+                <div class="card-header">
+                    <div class="card-title" id="modalTitle">Detalhes</div>
+                    <button id="closeModal" class="btn">Fechar</button>
+                </div>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+        <script src="script.js"></script>
+</body>
+
+
+
+<div id="waterTransition" class="active"></div>
+
+
+</html>

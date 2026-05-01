@@ -1,0 +1,47 @@
+<!-- templates/base_public.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Aqua Alert{% endblock %}</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  {% block extra_css %}{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='welcome.css') }}">
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- 🔹 Navbar pública -->
+  <div class="navbar">
+    <a href="{{ url_for('logout') }}">Home</a>
+    <a href="{{ url_for('dicas') }}">Dicas práticas</a>
+    <a href="{{ url_for('artigosuser') }}">Artigos</a>
+    <a href="{{ url_for('sobre') }}">Sobre</a>
+    <a href="{{ url_for('login') }}">Entrar / Cadastrar</a>
+  </div>
+
+  <!-- 🔹 Área de conteúdo dinâmica -->
+  <div class="welcome-container">
+    {% block content %}{% endblock %}
+  </div>
+
+  <script>
+    // Animações de entrada
+    document.addEventListener('DOMContentLoaded', function() {
+      const elements = document.querySelectorAll('.welcome-box, .navbar a');
+      elements.forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add('animated');
+        }, 100 * index);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Nova Conta</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-box">
+      <h1>🌊 Aqua Alert</h1>
+      <!-- Form com action e method -->
+      <form id="registerForm" action="{{ url_for('register') }}" method="POST">
+        <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+        <input type="email" id="email" name="email" placeholder="E-mail" required>
+        <input type="password" id="senha" name="senha" placeholder="Senha" required>
+        <button type="submit">Cadastrar</button>
+      </form>
+
+      <!-- Exibe mensagem de erro, se existir -->
+      {% if error %}
+      <p id="registerErrorMsg" class="error">{{ error }}</p>
+      {% endif %}
+
+      <div class="link">
+        Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
