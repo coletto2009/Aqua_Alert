@@ -5,7 +5,7 @@
     grid-template-rows: repeat(2, 1fr);    /* 2 linhas de tamanho igual */
     gap: 30px; /* Espaço entre os cards */
     margin-top: 40px; /* Espaço superior */
-    padding: 10px; /* Espaçamento interno da grid */
+    padding: 10px; /* Espaçamento interno da grid */    
     
     
 }

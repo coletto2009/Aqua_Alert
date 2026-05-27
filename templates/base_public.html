@@ -18,20 +18,38 @@
 </head>
 <body>
 
-  <!-- 🔹 Navbar pública -->
-  <div class="navbar">
-    <a href="{{ url_for('logout') }}">Home</a>
-    <a href="{{ url_for('dicas') }}">Dicas práticas</a>
-    <a href="{{ url_for('artigosuser') }}">Artigos</a>
-    <a href="{{ url_for('sobre') }}">Sobre</a>
-    <a href="{{ url_for('login') }}">Entrar / Cadastrar</a>
-  </div>
+<div class="navbar">
+  <div class="nav-container">
 
+    <!-- ESQUERDA (pode virar logo depois) -->
+    <div class="logo">
+      <a href="{{ url_for('logout') }}">Home</a>
+    </div>
+
+    <!-- CENTRO -->
+    <div class="nav-links">
+      <a href="{{ url_for('logout') }}">Home</a>
+      <a href="{{ url_for('dicas') }}">Dicas práticas</a>
+      <a href="{{ url_for('artigosuser') }}">Artigos</a>
+      <a href="{{ url_for('sobre') }}">Sobre</a>
+    </div>
+
+    <!-- DIREITA (CTA) -->
+    <div class="nav-cta">
+      <a href="{{ url_for('login') }}">Entrar / Cadastrar</a>
+    </div>
+
+  </div>
+</div>
+  
   <!-- 🔹 Área de conteúdo dinâmica -->
   <div class="welcome-container">
+ 
+
     {% block content %}{% endblock %}
   </div>
 
+  
   <script>
     // Animações de entrada
     document.addEventListener('DOMContentLoaded', function() {
