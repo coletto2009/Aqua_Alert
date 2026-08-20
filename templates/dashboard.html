@@ -7,117 +7,506 @@
 {% endblock %}
 
 {% block content %}
+
 <section id="view-dashboard" class="section">
-    
+
     <div class="dashboard-header">
-       
         <p>Monitore seu consumo de água em tempo real</p>
     </div>
 
+
+    <!-- =====================================================
+         CARDS PRINCIPAIS
+    ====================================================== -->
+
     <div class="grid-2 top-cards">
+
+        <!-- Consumo hoje -->
         <div class="card stat" id="stat-usage">
+
             <div class="card-icon">💧</div>
-            <div class="card-title">Consumo (hoje)</div>
-            <div class="value" data-bind="usage">{{ consumo_hoje }} L</div>
+
+            <div class="card-title">
+                Consumo hoje
+            </div>
+
+            <div
+                class="value"
+                id="consumoHoje"
+            >
+                {{ "%.2f"|format(consumo_hoje) }} L
+            </div>
+
         </div>
+
+
+        <!-- Consumo semanal -->
+        <div class="card stat">
+
+            <div class="card-icon">📊</div>
+
+            <div class="card-title">
+                Consumo nos últimos 7 dias
+            </div>
+
+            <div
+                class="value"
+                id="consumoSemana"
+            >
+                0.00 L
+            </div>
+
+        </div>
+
+
+        <!-- Sensores -->
+        <div class="card stat">
+
+            <div class="card-icon">📡</div>
+
+            <div class="card-title">
+                Sensores ativos
+            </div>
+
+            <div
+                class="value"
+                id="sensoresAtivos"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <!-- Alertas -->
+        <div class="card stat">
+
+            <div class="card-icon">⚠️</div>
+
+            <div class="card-title">
+                Alertas não lidos
+            </div>
+
+            <div
+                class="value"
+                id="alertas"
+            >
+                0
+            </div>
+
+        </div>
+
     </div>
 
+
+    <!-- =====================================================
+         GRÁFICO DIÁRIO
+    ====================================================== -->
+
     <div class="card">
+
         <div class="card-header">
-            <div class="card-title">Consumo Diário</div>
-            <div class="card-sub">Hoje hora a hora</div>
+
+            <div class="card-title">
+                Consumo diário
+            </div>
+
+            <div class="card-sub">
+                Consumo por hora — hoje
+            </div>
+
         </div>
+
         <div class="chart-container">
             <canvas id="dailyChart"></canvas>
         </div>
+
     </div>
+
+
+    <!-- =====================================================
+         GRÁFICO SEMANAL
+    ====================================================== -->
+
     <div class="card">
+
         <div class="card-header">
-            <div class="card-title">Consumo Semanal</div>
-            <div class="card-sub">Últimos 7 dias</div>
+
+            <div class="card-title">
+                Consumo semanal
+            </div>
+
+            <div class="card-sub">
+                Últimos 7 dias
+            </div>
+
         </div>
+
         <div class="chart-container">
             <canvas id="weeklyChart"></canvas>
         </div>
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
 
 </section>
 
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <script>
 
+    let dailyChart = null;
+    let weeklyChart = null;
+
+
+    // =====================================================
+    // RESUMO DO DASHBOARD
+    // =====================================================
+
+    async function carregarResumo() {
+
+        try {
+
+            const resposta = await fetch(
+                "{{ url_for('dashboard_resumo') }}"
+            );
+
+            if (!resposta.ok) {
+                throw new Error(
+                    "Não foi possível carregar o resumo."
+                );
+            }
+
+            const data = await resposta.json();
+
+
+            document.getElementById("consumoHoje")
+                .textContent =
+                `${Number(data.consumo_hoje).toFixed(2)} L`;
+
+
+            document.getElementById("consumoSemana")
+                .textContent =
+                `${Number(data.consumo_semana).toFixed(2)} L`;
+
+
+            document.getElementById("sensoresAtivos")
+                .textContent =
+                data.sensores_ativos;
+
+
+            document.getElementById("alertas")
+                .textContent =
+                data.alertas;
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar resumo:",
+                erro
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // GRÁFICO DIÁRIO
+    // =====================================================
+
     async function carregarGraficoDiario() {
-        const resp = await fetch("/api/consumo_diario");
-        const data = await resp.json();
 
-        const ctx = document.getElementById("dailyChart").getContext("2d");
-        new Chart(ctx, {
-            type: "bar", // <-- alterado para 'bar'
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: "Litros consumidos",
-                    data: data.valores,
-                    backgroundColor: "rgba(75, 192, 192, 0.6)",
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    borderWidth: 1
-                    
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
+        try {
+
+            const resposta = await fetch(
+                "{{ url_for('consumo_diario_api') }}"
+            );
+
+            if (!resposta.ok) {
+                throw new Error(
+                    "Não foi possível carregar o consumo diário."
+                );
+            }
+
+            const data = await resposta.json();
+
+            const canvas =
+                document.getElementById("dailyChart");
+
+            const ctx =
+                canvas.getContext("2d");
+
+
+            // Evita criar vários gráficos
+            if (dailyChart) {
+                dailyChart.destroy();
+            }
+
+
+            dailyChart = new Chart(ctx, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: data.labels,
+
+                    datasets: [{
+
+                        label: "Litros consumidos",
+
+                        data: data.valores,
+
+                        backgroundColor:
+                            "rgba(75, 192, 192, 0.6)",
+
+                        borderColor:
+                            "rgba(75, 192, 192, 1)",
+
+                        borderWidth: 1
+
+                    }]
+
                 },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Hora' }
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    return (
+                                        Number(context.raw)
+                                            .toFixed(2)
+                                        + " L"
+                                    );
+
+                                }
+
+                            }
+
+                        }
+
                     },
-                    y: {
-                        title: { display: true, text: 'Litros' },
-                        beginAtZero: true
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display: true,
+
+                                text: "Horário"
+
+                            }
+
+                        },
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            title: {
+
+                                display: true,
+
+                                text: "Litros"
+
+                            }
+
+                        }
+
                     }
+
                 }
-            }
-        });
+
+            });
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar gráfico diário:",
+                erro
+            );
+
+        }
+
     }
 
-    carregarGraficoDiario();
-    async function carregarGrafico() {
-        const resp = await fetch("/api/consumo_semanal");
-        const data = await resp.json();
 
-        const ctx = document.getElementById("weeklyChart").getContext("2d");
-        new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: "Litros consumidos",
-                    data: data.valores,
-                    backgroundColor: "rgba(54, 162, 235, 0.6)",
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
+    // =====================================================
+    // GRÁFICO SEMANAL
+    // =====================================================
+
+    async function carregarGraficoSemanal() {
+
+        try {
+
+            const resposta = await fetch(
+                "{{ url_for('consumo_semanal') }}"
+            );
+
+            if (!resposta.ok) {
+                throw new Error(
+                    "Não foi possível carregar o consumo semanal."
+                );
+            }
+
+            const data = await resposta.json();
+
+            const canvas =
+                document.getElementById("weeklyChart");
+
+            const ctx =
+                canvas.getContext("2d");
+
+
+            if (weeklyChart) {
+                weeklyChart.destroy();
+            }
+
+
+            weeklyChart = new Chart(ctx, {
+
+                type: "bar",
+
+                data: {
+
+                    labels: data.labels,
+
+                    datasets: [{
+
+                        label: "Litros consumidos",
+
+                        data: data.valores,
+
+                        backgroundColor:
+                            "rgba(54, 162, 235, 0.6)",
+
+                        borderColor:
+                            "rgba(54, 162, 235, 1)",
+
+                        borderWidth: 1
+
+                    }]
+
                 },
-                scales: {
-                    y: { beginAtZero: true }
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    return (
+                                        Number(context.raw)
+                                            .toFixed(2)
+                                        + " L"
+                                    );
+
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display: true,
+
+                                text: "Dia"
+
+                            }
+
+                        },
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            title: {
+
+                                display: true,
+
+                                text: "Litros"
+
+                            }
+
+                        }
+
+                    }
+
                 }
-            }
-        });
+
+            });
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar gráfico semanal:",
+                erro
+            );
+
+        }
+
     }
 
-    carregarGrafico();
+
+    // =====================================================
+    // INICIALIZAÇÃO
+    // =====================================================
+
+    async function iniciarDashboard() {
+
+        await carregarResumo();
+
+        await carregarGraficoDiario();
+
+        await carregarGraficoSemanal();
+
+    }
+
+
+    iniciarDashboard();
+
 </script>
-
-
-
 
 {% endblock %}

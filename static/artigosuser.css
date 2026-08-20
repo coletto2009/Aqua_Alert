@@ -60,7 +60,7 @@
     max-width: 900px;
     margin: 2rem auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #fdfdfd;
+    color: #141414;
 }
 
 /* Header do card */
@@ -78,7 +78,7 @@
 #view-artigos .card-sub {
     font-size: 1rem;
     font-weight: 400;
-    color: #ffffff;
+    color: #0c0c0c;
 }
 
 /* Corpo do card */
@@ -123,7 +123,7 @@
 #view-artigos dd {
     margin-left: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #ffffff;
+    color: #0a0a0a;
     font-size: 1rem;
 }
 

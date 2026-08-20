@@ -2,79 +2,351 @@
 
 {% block title %}Aqua Alert – Histórico{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='history.css') }}">
-{% endblock %}
-
 {% block content %}
-<section id="view-historico" class="section">
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">Histórico de Consumo Diário</div>
-            <div class="card-sub">Totais por dia (agrupados por dispositivo)</div>
-        </div>
 
-        <!-- Campo de busca -->
-        <div class="mb-8">
-            <input id="historySearch" class="input" placeholder="Filtrar por dispositivo ou status" />
-        </div>
+<section id="view-history" class="section">
 
-        <!-- Tabela -->
-        <table class="table" id="historyTable">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Dispositivo</th>
-                    <th>Total (Litros)</th>
-                    <th>Última Atualização</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- JS preenche aqui -->
-            </tbody>
-        </table>
+    <!-- =====================================================
+        CABEÇALHO
+    ====================================================== -->
 
-        <!-- Paginação -->
-        <div class="mt-16 flex" id="pagination"></div>
+    <div class="dashboard-header">
+
+        <h1>Histórico de Consumo</h1>
+
+        <p>
+            Consulte as leituras e o consumo dos seus sensores.
+        </p>
+
     </div>
+
+
+    <!-- =====================================================
+        RESUMO GERAL
+    ====================================================== -->
+
+    <div class="grid-2">
+
+        <!-- Total consumido -->
+
+        <div class="card stat">
+
+            <div class="card-icon">
+                💧
+            </div>
+
+            <div class="card-title">
+                Consumo total
+            </div>
+
+            <div class="value">
+                {{ "%.2f"|format(total_litros|float) }} L
+            </div>
+
+        </div>
+
+
+        <!-- Total de leituras -->
+
+        <div class="card stat">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <div class="card-title">
+                Total de leituras
+            </div>
+
+            <div class="value">
+                {{ total_leituras }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RESUMO DIÁRIO
+    ====================================================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Consumo diário
+                </div>
+
+                <div class="card-sub">
+                    Total consumido em cada dia
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if resumo_diario %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Data
+                            </th>
+
+                            <th>
+                                Consumo
+                            </th>
+
+                            <th>
+                                Leituras
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for dia in resumo_diario %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ dia.dia.strftime('%d/%m/%Y') }}
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        {{ "%.2f"|format(dia.total_litros|float) }} L
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ dia.quantidade_leituras }}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="card-body">
+
+                <p class="muted">
+                    Ainda não existem leituras registradas.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         LEITURAS INDIVIDUAIS
+    ====================================================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Leituras
+                </div>
+
+                <div class="card-sub">
+                    Todas as medições registradas pelos seus sensores
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if leituras %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Data/Hora
+                            </th>
+
+                            <th>
+                                Sensor
+                            </th>
+
+                            <th>
+                                Fluxo
+                            </th>
+
+                            <th>
+                                Litros
+                            </th>
+
+                            <th>
+                                TDS
+                            </th>
+
+                            <th>
+                                Pulsos
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for leitura in leituras %}
+
+                            <tr>
+
+                                <!-- Data -->
+
+                                <td>
+
+                                    {{ leitura.medido_em.strftime('%d/%m/%Y %H:%M:%S') }}
+
+                                </td>
+
+
+                                <!-- Sensor -->
+
+                                <td>
+
+                                    <strong>
+                                        {{ leitura.sensor_nome }}
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="muted">
+                                        {{ leitura.identificador }}
+
+                                        {% if leitura.localizacao %}
+                                            · {{ leitura.localizacao }}
+                                        {% endif %}
+                                    </small>
+
+                                </td>
+
+
+                                <!-- Fluxo -->
+
+                                <td>
+
+                                    {{ "%.2f"|format(leitura.fluxo_lpm|float) }}
+                                    L/min
+
+                                </td>
+
+
+                                <!-- Litros -->
+
+                                <td>
+
+                                    <strong>
+                                        {{ "%.4f"|format(leitura.quantidade_litros|float) }}
+                                        L
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- TDS -->
+
+                                <td>
+
+                                    {% if leitura.tds is not none %}
+
+                                        {{ leitura.tds }}
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Pulsos -->
+
+                                <td>
+
+                                    {% if leitura.pulsos is not none %}
+
+                                        {{ leitura.pulsos }}
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="card-body">
+
+                <p class="muted">
+                    Nenhuma leitura foi registrada pelos seus sensores.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
 </section>
-
-<script>
-async function carregarHistorico() {
-    const res = await fetch("/historico");
-    const dados = await res.json();
-
-    const tbody = document.querySelector("#historyTable tbody");
-    tbody.innerHTML = "";
-
-    dados.forEach(item => {
-        const tr = document.createElement("tr");
-
-        // Status calculado simples (exemplo: >100 litros = alto consumo)
-        const status = item.total_litros > 100 ? "Alto Consumo" : "Normal";
-
-        tr.innerHTML = `
-            <td>${item.dia}</td>
-            <td>Dispositivo ${item.dispositivo_id}</td>
-            <td>${item.total_litros} L</td>
-            <td>${item.ultima_atualizacao}</td>
-            <td>${status}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// carregar histórico quando a tela abrir
-document.addEventListener("DOMContentLoaded", carregarHistorico);
-
-// 🔎 Filtro simples pelo input
-document.getElementById("historySearch").addEventListener("input", function() {
-    const termo = this.value.toLowerCase();
-    document.querySelectorAll("#historyTable tbody tr").forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(termo) ? "" : "none";
-    });
-});
-</script>
 
 {% endblock %}

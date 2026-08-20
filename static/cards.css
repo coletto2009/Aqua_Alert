@@ -44,7 +44,7 @@
     margin: 10px 0 6px; /* Espaçamento externo */
     font-size: 24px; /* 🔑 Fonte maior */
     font-weight: bold; /* Negrito */
-    color: var(--text-color, #222); /* Cor herdada */
+    color: var(--text-color); /* Cor herdada */
     text-align: center; /* Centralizado */
 }
 

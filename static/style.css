@@ -18,10 +18,10 @@
 
 body.theme-dark {
     --bg: #0b1220;
-    --panel: #111a2b;
+    --panel: #868688;
     --panel-2: #0e1728;
     --text: #e9f2ff;
-    --muted: #9fb3c8;
+    --muted: #e4e9ec;
     --border: 1px solid rgba(255, 255, 255, .08);
     --shadow: 0 10px 30px rgba(0, 0, 0, .25);
     
@@ -56,10 +56,10 @@ body.theme-light {
 
 body.theme-aqua {
     --bg: #153243;
-    --panel: #284b63;
+    --panel: #519cd1;
     --panel-2: #1e3a4e;
     --text: #e2f0fd;
-    --muted: #a3c2dd;
+    --muted: #f3f1f1;
     --brand: #62b6cb;
     --brand-2: #52a3b9;
     --brand-3: #4a91a6;
@@ -74,6 +74,7 @@ body.theme-aqua {
     --bg-wave-after: rgba(163, 194, 221, .35);
     --header-bg-gradient: linear-gradient(180deg, rgba(255, 255, 255, .06), transparent);
     --header-border-color: var(--border);
+    --text-color: #fafdfd;
 }
 
 body.theme-ocean {

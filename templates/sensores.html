@@ -7,45 +7,328 @@
 {% endblock %}
 
 {% block content %}
+
 <section id="view-sensores" class="section">
+
     <div class="card">
+
+        <!-- =================================================
+            CABEÇALHO
+        ================================================== -->
+
         <div class="card-header">
+
             <div>
-                <div class="card-title">Sensores</div>
-                <div class="card-sub">Lista estática de dispositivos</div>
+                <div class="card-title">
+                    Meus Sensores
+                </div>
+
+                <div class="card-sub">
+                    Dispositivos vinculados à sua conta
+                </div>
             </div>
-            <div class="flex">
-                <button id="addSensorBtn" class="btn primary" disabled>Adicionar Sensor</button>
-                
+
+            <div>
+                <button
+                    type="button"
+                    id="addSensorBtn"
+                    class="btn primary"
+                    onclick="abrirFormularioSensor()"
+                >
+                    + Adicionar Sensor
+                </button>
             </div>
+
         </div>
 
-        <div id="sensorsList" class="grid-2">
-            <!-- Dispositivo estático (exemplo) -->
-            <div class="card sensor-card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Sensor #1</div>
-                        <div class="card-sub">Código: YSF201_123</div>
+
+        <!-- =================================================
+            FORMULÁRIO DE CADASTRO
+        ================================================== -->
+
+        <div
+            id="sensorFormContainer"
+            class="card"
+            style="display: none; margin-top: 20px;"
+        >
+
+            <div class="card-header">
+
+                <div>
+                    <div class="card-title">
+                        Cadastrar novo sensor
                     </div>
+
+                    <div class="card-sub">
+                        O sensor será automaticamente vinculado
+                        ao usuário conectado.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                {% if erro %}
+
+                    <div class="alert alert-danger">
+                        {{ erro }}
+                    </div>
+
+                {% endif %}
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('sensores') }}"
+                >
+
+                    <!-- Nome -->
+
+                    <div class="form-group">
+
+                        <label for="nome">
+                            Nome do sensor
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Ex.: Sensor da Casa"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Identificador -->
+
+                    <div class="form-group">
+
+                        <label for="identificador">
+                            Identificador
+                        </label>
+
+                        <input
+                            type="text"
+                            id="identificador"
+                            name="identificador"
+                            placeholder="Ex.: SENSOR_001"
+                            required
+                        >
+
+                        <small>
+                            Identificador usado para reconhecer
+                            o sensor no sistema.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Código -->
+
+                    <div class="form-group">
+
+                        <label for="codigo_dispositivo">
+                            Código do dispositivo
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigo_dispositivo"
+                            name="codigo_dispositivo"
+                            placeholder="Ex.: YSF201_123"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Localização -->
+
+                    <div class="form-group">
+
+                        <label for="localizacao">
+                            Localização
+                        </label>
+
+                        <input
+                            type="text"
+                            id="localizacao"
+                            name="localizacao"
+                            placeholder="Ex.: Casa"
+                        >
+
+                    </div>
+
+
+                    <!-- Botões -->
+
                     <div class="flex">
-                        <button class="btn edit" disabled>Editar</button>
-                        <button class="btn danger" disabled>Remover</button>
+
+                        <button
+                            type="submit"
+                            class="btn primary"
+                        >
+                            Cadastrar Sensor
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn"
+                            onclick="fecharFormularioSensor()"
+                        >
+                            Cancelar
+                        </button>
+
                     </div>
-                </div>
-                <div class="card-body">
-                    <p><strong>ID:</strong> 1</p>
-                    <p><strong>ID do Usuário:</strong> 1</p>
-                    <p><strong>Código do Dispositivo:</strong> YSF201_123</p>
-                    <p><strong>Criado em:</strong> 2025-09-15 21:08:10</p>
-                    <p class="muted">Local: Casa </p>
-                </div>
+
+                </form>
+
             </div>
 
-            <!-- Coloque aqui mais cards estáticos se desejar -->
         </div>
-       
-    </div>
-</section>
-{% endblock %}
 
+
+        <!-- =================================================
+            LISTA DE SENSORES
+        ================================================== -->
+
+        <div
+            id="sensorsList"
+            class="grid-2"
+            style="margin-top: 20px;"
+        >
+
+            {% if sensores %}
+
+                {% for sensor in sensores %}
+
+                    <div class="card sensor-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <div class="card-title">
+                                    {{ sensor.nome }}
+                                </div>
+
+                                <div class="card-sub">
+                                    Identificador:
+                                    {{ sensor.identificador }}
+                                </div>
+
+                            </div>
+
+
+                            {% if sensor.ativo %}
+
+                                <span class="sensor-status ativo">
+                                    Ativo
+                                </span>
+
+                            {% else %}
+
+                                <span class="sensor-status inativo">
+                                    Inativo
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <p>
+                                <strong>ID do Sensor:</strong>
+                                {{ sensor.id }}
+                            </p>
+
+                            <p>
+                                <strong>Identificador:</strong>
+                                {{ sensor.identificador }}
+                            </p>
+
+                            <p>
+                                <strong>Código do Dispositivo:</strong>
+                                {{ sensor.codigo_dispositivo }}
+                            </p>
+
+                            <p>
+                                <strong>Localização:</strong>
+                                {{ sensor.localizacao or "Não informada" }}
+                            </p>
+
+                            <p>
+                                <strong>Cadastrado em:</strong>
+                                {{ sensor.criado_em.strftime('%d/%m/%Y %H:%M') }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card-body">
+
+                    <p class="muted">
+                        Nenhum sensor cadastrado.
+                    </p>
+
+                    <p>
+                        Clique em
+                        <strong>“+ Adicionar Sensor”</strong>
+                        para cadastrar o primeiro dispositivo.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+    JAVASCRIPT DO FORMULÁRIO
+====================================================== -->
+
+<script>
+
+function abrirFormularioSensor() {
+
+    const formulario =
+        document.getElementById("sensorFormContainer");
+
+    formulario.style.display = "block";
+
+    formulario.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+function fecharFormularioSensor() {
+
+    const formulario =
+        document.getElementById("sensorFormContainer");
+
+    formulario.style.display = "none";
+
+}
+
+</script>
+
+{% endblock %}

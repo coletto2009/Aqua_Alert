@@ -161,7 +161,7 @@
 
 .card-link:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 40px rgba(153, 144, 144, 0.15);
 }
 
 .card-link h3 {
@@ -203,6 +203,7 @@ main.main {
     border: var(--border);
     box-shadow: var(--shadow);
     padding: 16px;
+
 }
 
 /* ================= CARD HEADER ================= */
